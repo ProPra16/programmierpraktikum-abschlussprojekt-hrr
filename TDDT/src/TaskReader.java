@@ -4,64 +4,51 @@ public class TaskReader
 {
 	private FileReader fr;
 	private BufferedReader br;
-	private static String name;
-	private static String content;
+	private Aufgabe[] aufgaben;
 	
 	public static void main(String[] args)
 	{
 		TaskReader tr = new TaskReader();
-		tr.aufgabe1();
-		System.out.println(name);
-		System.out.println(content);
+		tr.read("Aufgabe1.txt");
 	}
-	
 	public TaskReader()
 	{
-		content = "";
-	}
+		aufgaben = new Aufgabe[6];
+	}	
 	
-	public void aufgabe1()
+	public void read(String a)
 	{
-		read("Aufgabe1.txt");
-	}
-	
-	public void aufgabe2()
-	{
-		
-	}
-	
-	public void aufgabe3()
-	{
-		
-	}
-	
-	private void read(String a)
-	{
+		int i = 0;
+		String inhalt = "";
 		try
 		{
 			fr = new FileReader(a);
 			br = new BufferedReader(fr);
 			String temp = br.readLine();
-			name = temp;
-			temp = br.readLine();
-			while(!temp.equals("<ende>"))
+			while(!temp.equals("<katalogEnde>"))
 			{
-				content += temp + "\n";
-				temp = br.readLine();
+				if(temp.equals("<klasse>") || temp.equals("<test>"))
+				{
+					temp = br.readLine();
+					Aufgabe auf = new Aufgabe();
+					auf.setName(temp);
+					temp = br.readLine();
+					while(!temp.equals("<klasseEnde>") && !temp.equals("<testEnde>"))
+					{
+						inhalt += temp + "\n";
+						temp = br.readLine();
+					}
+					auf.setText(inhalt);
+					auf.createDatei();
+					aufgaben[i] = auf;
+					i++;
+					inhalt = "";
+				}
+				temp = br.readLine();	
 			}
 		}catch (IOException e)
 		{
 			e.printStackTrace();
 		}		
-	}
-
-	public String getName()
-	{
-		return name;
-	}
-
-	public String getContent()
-	{
-		return content;
 	}
 }
