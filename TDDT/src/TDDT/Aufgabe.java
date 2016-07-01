@@ -1,3 +1,4 @@
+package TDDT;
 import java.io.*;
 
 public class Aufgabe

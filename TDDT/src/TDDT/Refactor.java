@@ -1,6 +1,7 @@
+package TDDT;
 
-public class TDDTRefactor extends TDDTCode {
-	public TDDTRefactor() {
+public class Refactor extends Code {
+	public Refactor() {
 		
 	}
 	
@@ -11,7 +12,7 @@ public class TDDTRefactor extends TDDTCode {
 	
 	public void changePhase() {
 		if(differentCode() == true && compileCode() == true && testWorks() == true ) {
-			TDDTTest red = new TDDTTest();
+			Test red = new Test();
 		}
 	}
 }

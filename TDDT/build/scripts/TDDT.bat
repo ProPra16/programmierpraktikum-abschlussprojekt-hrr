@@ -72,7 +72,7 @@ set CMD_LINE_ARGS=%$
 set CLASSPATH=%APP_HOME%\lib\TDDT-0.0.1.jar;%APP_HOME%\lib\joda-time-2.2.jar;%APP_HOME%\lib\slf4j-api-1.7.21.jar
 
 @rem Execute TDDT
-"%JAVA_EXE%" %DEFAULT_JVM_OPTS% %JAVA_OPTS% %TDDT_OPTS%  -classpath "%CLASSPATH%" TDDTMain %CMD_LINE_ARGS%
+"%JAVA_EXE%" %DEFAULT_JVM_OPTS% %JAVA_OPTS% %TDDT_OPTS%  -classpath "%CLASSPATH%" TDDT.Window %CMD_LINE_ARGS%
 
 :end
 @rem End local scope for the variables with windows NT shell

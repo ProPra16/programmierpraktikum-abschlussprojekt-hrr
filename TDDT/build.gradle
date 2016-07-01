@@ -2,12 +2,14 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'application'
 
-mainClassName = 'TDDTMain'
+mainClassName = 'TDDT.Window'
 
 repositories {
     mavenCentral()
     jcenter()
 }
+
+sourceSets.main.java.srcDirs = ['src'];
 
 jar {
     baseName = 'TDDT'

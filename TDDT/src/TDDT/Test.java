@@ -1,6 +1,7 @@
+package TDDT;
 //Startet die Bearbeitung des jeweiligen Testcodes
-public class TDDTTest {
-	public TDDTTest() {
+public class Test {
+	public Test() {
 		//Dem User soll in rot angezeigt werden, dass Test bearbeitet werden
 		//Test soll geoeffnet werden ? Oder öffnet der User das selbst
 	}
@@ -17,7 +18,7 @@ public class TDDTTest {
 	
 	public void changePhase() {
 		if(compileTest() == true && testFails() == true) {
-			TDDTCode green = new TDDTCode();
+			Code green = new Code();
 		}
 	}
 }

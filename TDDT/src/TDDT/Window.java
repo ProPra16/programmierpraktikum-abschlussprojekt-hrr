@@ -1,5 +1,4 @@
-
-import java.awt.Color;
+package TDDT;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -8,12 +7,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-public class TDDTWindow extends Application {
+public class Window extends Application {
 
 	@Override
 	public void start(Stage primaryStage) {
@@ -25,6 +23,19 @@ public class TDDTWindow extends Application {
 		
 		phase.setMinSize(50, 50);
 		phase.setStyle("-fx-border-color: black; -fx-background-color: red;");
+		
+		katalog.setOnAction( event -> {
+			FileChooser fileChooser = new FileChooser();
+			fileChooser.setTitle("Wählen Sie einen Aufgaben Katalog");
+			fileChooser.showOpenDialog(primaryStage);
+			katalog.setDisable(true);
+		});
+		
+		aufgabe.setOnAction(event -> {
+			FileChooser fileChooser = new FileChooser();
+			fileChooser.setTitle("Wählen Sie einen Aufgaben Katalog");
+			fileChooser.showOpenDialog(primaryStage);
+		});
 		
 		GridPane left = new GridPane(); 
 		left.setPadding(new Insets(10,10,10,10));

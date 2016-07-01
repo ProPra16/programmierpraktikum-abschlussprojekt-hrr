@@ -1,6 +1,7 @@
+package TDDT;
 
-public class TDDTCode {
-	public TDDTCode() {
+public class Code {
+	public Code() {
 		//Analog zu TDDTTest
 	}
 	
@@ -23,7 +24,7 @@ public class TDDTCode {
 			//in der Zwischenablage
 			//Eventuell Lohnt es sich eine Klasse zu erstellen die unsere Übungscodes
 			//verwaltet ?
-			TDDTRefactor refactor = new TDDTRefactor();
+			Refactor refactor = new Refactor();
 		}
 	}
 }
