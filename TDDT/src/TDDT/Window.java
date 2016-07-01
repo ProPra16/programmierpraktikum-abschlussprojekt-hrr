@@ -1,5 +1,7 @@
 package TDDT;
 
+import javax.swing.JFileChooser;
+
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -12,29 +14,53 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class Window extends Application {
+	
+	private TaskReader reader = new TaskReader();
 
 	@Override
 	public void start(Stage primaryStage) {
 		Button katalog = new Button("Wähle Katalog ");
 		Button aufgabe = new Button("Wähle Aufgabe");
-		Button phase   = new Button("Kompilieren");
+		Button phase   = new Button();
 		Button nPhase  = new Button("Nächste Phase");
 		Button lPhase  = new Button("Letzte Phase    ");
-		
+		lPhase.setDisable(true);
 		phase.setMinSize(50, 50);
 		phase.setStyle("-fx-border-color: black; -fx-background-color: red;");
 		
+		TextArea editor = new TextArea();
+		
 		katalog.setOnAction( event -> {
-			FileChooser fileChooser = new FileChooser();
-			fileChooser.setTitle("Wählen Sie einen Aufgaben Katalog");
-			fileChooser.showOpenDialog(primaryStage);
+			JFileChooser fileChooser = new JFileChooser();
+			fileChooser.setDialogTitle("Wählen Sie einen Katalog");
+			fileChooser.showOpenDialog(null);
+			reader.read(fileChooser.getSelectedFile());
 			katalog.setDisable(true);
 		});
 		
 		aufgabe.setOnAction(event -> {
-			FileChooser fileChooser = new FileChooser();
-			fileChooser.setTitle("Wählen Sie einen Aufgaben Katalog");
-			fileChooser.showOpenDialog(primaryStage);
+			SaveLoad saveload = new SaveLoad();
+			saveload.laden("BarTest.java", editor);		//String Dateiname ersetzen für Testdatei
+			phase.setText("Test schreiben");
+			aufgabe.setDisable(true);
+			
+		}); 
+		
+		nPhase.setOnAction(event -> {
+			//Wenn Test funktionieren:
+			SaveLoad saveload = new SaveLoad();
+			saveload.speichern("BarTest.java", editor);
+			 
+			//Danach:
+			saveload.laden("Bar.java", editor);
+			
+			phase.setText("Code schreiben");
+			phase.setStyle("-fx-border-color: black; -fx-background-color: lightgreen;");
+		}); 
+		
+		lPhase.setOnAction(event -> {
+			//Phase zurück
+				
 		});
 		
 		GridPane left = new GridPane(); 
@@ -66,7 +92,7 @@ public class Window extends Application {
 		top.setRight(right);
 		top.setCenter(center);
 		
-		TextArea editor = new TextArea();
+
 		
 		
 		BorderPane borderpane = new BorderPane();

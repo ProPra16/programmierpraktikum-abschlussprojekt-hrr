@@ -7,17 +7,12 @@ public class TaskReader
 	private BufferedReader br;
 	private Aufgabe[] aufgaben;
 	
-	public static void main(String[] args)
-	{
-		TaskReader tr = new TaskReader();
-		tr.read("Aufgabe1.txt");
-	}
 	public TaskReader()
 	{
 		aufgaben = new Aufgabe[6];
 	}	
 	
-	public void read(String a)
+	public void read(File a)
 	{
 		int i = 0;
 		String inhalt = "";

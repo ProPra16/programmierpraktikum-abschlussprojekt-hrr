@@ -15,12 +15,16 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
-public class SaveLoad extends Application{	
+public class SaveLoad{	
 	
 	TextArea text;
 	String datei;		//Variabel die benutzt wird um 
 	
-	public static void main(String[] args){		
+	public SaveLoad(){
+		
+	}
+	
+/*	public static void main(String[] args){		
 		launch(args);
 	}
 	
@@ -56,12 +60,13 @@ public class SaveLoad extends Application{
 		primaryStage.show();
 
 	}
+	*/
 	
-	public void speichern(){							//Inhalt des Textfelds in eine Datei speichern
+	public void speichern(String name, TextArea text){							//Inhalt des Textfelds in eine Datei speichern
 		BufferedWriter writer = null; 
 		
 		try {
-			writer = new BufferedWriter (new FileWriter("Test.java"));
+			writer = new BufferedWriter (new FileWriter(name));
 			writer.write(text.getText());
 			writer.flush();
 			writer.close();
@@ -70,9 +75,9 @@ public class SaveLoad extends Application{
 		}		
 	}
 	
-	public void laden(){								//Aus einer Datei in das Textfeld laden
+	public void laden(String name, TextArea text){								//Aus einer Datei in das Textfeld laden
 		String s = "";
-		File file = new File ("Test.java");
+		File file = new File (name);
 		
 		try(Scanner sc = new Scanner(file);){ 
 			while(sc.hasNextLine()){
