@@ -22,6 +22,11 @@ public class Aufgabe
 		content = c;
 	}
 	
+	public String getName()
+	{
+		return name;
+	}
+	
 	public void createDatei()
 	{
 		try

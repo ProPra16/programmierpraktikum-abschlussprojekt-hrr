@@ -6,16 +6,20 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
+import javafx.stage.*;
 
 public class Window extends Application {
 	
-	private TaskReader reader = new TaskReader();
+	private static TaskReader reader = new TaskReader();
+	private static String className;
+	private static String classTestName;
+	private static TextArea editor = new TextArea();
+	private boolean test;
 
 	@Override
 	public void start(Stage primaryStage) {
@@ -26,9 +30,8 @@ public class Window extends Application {
 		Button lPhase  = new Button("Letzte Phase    ");
 		lPhase.setDisable(true);
 		phase.setMinSize(50, 50);
+		phase.setText("Katalog auswählen");
 		phase.setStyle("-fx-border-color: black; -fx-background-color: red;");
-		
-		TextArea editor = new TextArea();
 		
 		katalog.setOnAction( event -> {
 			JFileChooser fileChooser = new JFileChooser();
@@ -36,26 +39,53 @@ public class Window extends Application {
 			fileChooser.showOpenDialog(null);
 			reader.read(fileChooser.getSelectedFile());
 			katalog.setDisable(true);
+			phase.setText("Aufgabe auswählen");
 		});
 		
 		aufgabe.setOnAction(event -> {
-			SaveLoad saveload = new SaveLoad();
-			saveload.laden("BarTest.java", editor);		//String Dateiname ersetzen für Testdatei
-			phase.setText("Test schreiben");
-			aufgabe.setDisable(true);
+			if(reader.content())
+			{
+				test = true;
+				AufgabenWindow aw = new AufgabenWindow();
+				Stage temp = new Stage();
+				aw.start(temp);
+				phase.setText("Test schreiben");
+				aufgabe.setDisable(true);
+			}else
+			{
+				Alert alert = new Alert(Alert.AlertType.INFORMATION);
+				alert.setTitle("Keine Aufgaben vorhaneden!");
+				alert.setContentText("Wählen sie zuerst einen Katalog aus, bevor sie Aufgaben auswählen");
+				alert.showAndWait();
+			}
 			
-		}); 
+		});
 		
 		nPhase.setOnAction(event -> {
 			//Wenn Test funktionieren:
-			SaveLoad saveload = new SaveLoad();
-			saveload.speichern("BarTest.java", editor);
-			 
-			//Danach:
-			saveload.laden("Bar.java", editor);
-			
-			phase.setText("Code schreiben");
-			phase.setStyle("-fx-border-color: black; -fx-background-color: lightgreen;");
+			if(test)
+			{
+				SaveLoad saveload = new SaveLoad();
+				saveload.speichern(classTestName, editor);
+				
+				//Danach:
+				saveload.laden(className, editor);
+				
+				phase.setText("Code schreiben");
+				phase.setStyle("-fx-border-color: black; -fx-background-color: lightgreen;");
+				test = false;
+			}else
+			{
+				SaveLoad saveload = new SaveLoad();
+				saveload.speichern(className, editor);
+				
+				//Danach:
+				saveload.laden(classTestName, editor);
+				
+				phase.setText("Test");
+				phase.setStyle("-fx-border-color: black; -fx-background-color: red;");
+				test = true;
+			}
 		}); 
 		
 		lPhase.setOnAction(event -> {
@@ -107,5 +137,26 @@ public class Window extends Application {
 
 	public static void main(String[] args) {
 		launch(args);
+	}
+	
+	public static TaskReader getReader()
+	{
+		return reader;
+	}
+	
+	public static void aufgabenEinlesen(SaveLoad s)
+	{
+		s.laden(classTestName, editor);
+	}
+	
+	
+	public static void setClassName(String n)
+	{
+		className = n;
+	}
+	
+	public static void setClassTestName(String n)
+	{
+		classTestName = n;
 	}
 }

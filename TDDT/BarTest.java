@@ -1,5 +1,7 @@
-public class Bar {
-public static int fourtyTwo() {
-  return 41 + 1;
+import static org.junit.Assert.*;
+import org.junit.Test;
+public class BarTest {
+@Test
+public void testSomething() {
  }
 }

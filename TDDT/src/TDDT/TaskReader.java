@@ -47,4 +47,18 @@ public class TaskReader
 			e.printStackTrace();
 		}		
 	}
+	
+	public Aufgabe getAufgabe(int pos)
+	{
+		return aufgaben[pos];
+	}
+	
+	public boolean content()
+	{
+		if(aufgaben[0] != null)
+		{
+			return true;
+		}
+		return false;
+	}
 }
