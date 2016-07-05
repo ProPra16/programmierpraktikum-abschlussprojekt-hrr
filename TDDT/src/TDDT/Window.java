@@ -20,7 +20,9 @@ public class Window extends Application {
 	private static String classTestName;
 	private static TextArea editor = new TextArea();
 	private boolean test;
-
+	private boolean refactor;
+    private boolean code;
+	
 	@Override
 	public void start(Stage primaryStage) {
 		Button katalog = new Button("Wähle Katalog ");
@@ -28,7 +30,7 @@ public class Window extends Application {
 		Button phase   = new Button();
 		Button nPhase  = new Button("Nächste Phase");
 		Button lPhase  = new Button("Letzte Phase    ");
-		lPhase.setDisable(true);
+		lPhase.setDisable(true); 						//Nur in der Codephase ausführbar
 		phase.setMinSize(50, 50);
 		phase.setText("Katalog auswählen");
 		phase.setStyle("-fx-border-color: black; -fx-background-color: red;");
@@ -43,9 +45,11 @@ public class Window extends Application {
 		});
 		
 		aufgabe.setOnAction(event -> {
+			//Wenn Aufgabe gewählt , schreibe Test
+			
 			if(reader.content())
 			{
-				test = true;
+				code = true; 		//Sprungvariable Nächste Phase Codebearbeiten
 				AufgabenWindow aw = new AufgabenWindow();
 				Stage temp = new Stage();
 				aw.start(temp);
@@ -58,40 +62,55 @@ public class Window extends Application {
 				alert.setContentText("Wählen sie zuerst einen Katalog aus, bevor sie Aufgaben auswählen");
 				alert.showAndWait();
 			}
-			
 		});
 		
 		nPhase.setOnAction(event -> {
-			//Wenn Test funktionieren:
-			if(test)
+			if(code)
 			{
+				//speichert Test und lädt Code in den Editor
+				lPhase.setDisable(false);
 				SaveLoad saveload = new SaveLoad();
 				saveload.speichern(classTestName, editor);
 				
-				//Danach:
 				saveload.laden(className, editor);
 				
 				phase.setText("Code schreiben");
 				phase.setStyle("-fx-border-color: black; -fx-background-color: lightgreen;");
-				test = false;
-			}else
-			{
+				code = false;
+				refactor = true;		//Leitet Refactoring ein
+			}else if(test) {
+				//Lädt Test in den Editor
+				lPhase.setDisable(true);
 				SaveLoad saveload = new SaveLoad();
 				saveload.speichern(className, editor);
 				
-				//Danach:
 				saveload.laden(classTestName, editor);
 				
-				phase.setText("Test");
+				phase.setText("Test schreiben");
 				phase.setStyle("-fx-border-color: black; -fx-background-color: red;");
+				test = false;
+				code = true;
+			}else if(refactor) {
+				//Refactoring Phase
+				lPhase.setDisable(true);
+				phase.setText("REFACTORING");
+				phase.setStyle("-fx-border-color: white; -fx-background-color: black;");
+				refactor = false;
 				test = true;
 			}
 		}); 
 		
+		//Button um letzte Phase aufrufen zu können
 		lPhase.setOnAction(event -> {
-			//Phase zurück
-				
+			SaveLoad saveload = new SaveLoad();
+			saveload.laden(classTestName, editor);
+			
+			phase.setText("Test schreiben");
+			phase.setStyle("-fx-border-color: black; -fx-background-color: red;");
+			code = true;
 		});
+				
+		
 		
 		GridPane left = new GridPane(); 
 		left.setPadding(new Insets(10,10,10,10));
