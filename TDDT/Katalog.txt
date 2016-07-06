@@ -1,0 +1,56 @@
+<katalog>
+<klasse>
+Bar
+public class Bar {
+public static int fourtyTwo() {
+  return 41 + 1;
+ }
+}
+<klasseEnde>
+<test>
+BarTest
+import static org.junit.Assert.*;
+import org.junit.Test;
+public class BarTest {
+@Test
+public void testSomething() {
+ }
+}
+<testEnde>
+<klasse>
+Bar2
+public class Bar2 {
+public static int fourtyThree() {
+  return 41 + 2;
+ }
+}
+<klasseEnde>
+<test>
+Bar2Test
+import static org.junit.Assert.*;
+import org.junit.Test;
+public class BarTest2 {
+@Test
+public void testSomething() {
+ }
+}
+<testEnde>
+<klasse>
+Bar3
+public class Bar3 {
+public static int fourtyFour() {
+  return 41 + 4;
+ }
+}
+<klasseEnde>
+<test>
+Bar3Test
+import static org.junit.Assert.*;
+import org.junit.Test;
+public class BarTest3 {
+@Test
+public void testSomething() {
+ }
+}
+<testEnde>
+<katalogEnde>
