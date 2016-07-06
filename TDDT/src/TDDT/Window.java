@@ -70,7 +70,7 @@ public class Window extends Application {
 		nPhase.setOnAction(event -> {
 			if(code)
 			{
-				Aufgabe a = reader.getAufgabe(aufgabenNummer);
+				Aufgabe a = reader.getAufgabe(testNummer);
 				Tester test = new Tester();
 				if(test.CompileClass(a.getName(), a.getContent(), true) || test.testTesten(a.getName(), a.getContent(), true))
 				{

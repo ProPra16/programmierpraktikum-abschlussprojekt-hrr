@@ -44,6 +44,8 @@ public class AufgabenWindow extends Application
 			name = laden.getName();
 			testName = name + "Test.java";
 			name += ".java";
+			System.out.print(name);
+			System.out.print(testName);
 			namenSetzen();
 			SaveLoad sl = new SaveLoad();
 			Window.aufgabenEinlesen(sl);
