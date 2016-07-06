@@ -27,6 +27,10 @@ public class Aufgabe
 		return name;
 	}
 	
+	public String getContent()
+	{
+		return content;
+	}
 	public void createDatei()
 	{
 		try

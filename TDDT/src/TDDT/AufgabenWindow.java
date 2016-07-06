@@ -21,13 +21,14 @@ public class AufgabenWindow extends Application
 		TaskReader tr = Window.getReader();
 		Aufgabe temp = tr.getAufgabe(0);
 		aufgabe1.setText(temp.getName());
-		temp = tr.getAufgabe(1);
-		aufgabe2.setText(temp.getName());
 		temp = tr.getAufgabe(2);
+		aufgabe2.setText(temp.getName());
+		temp = tr.getAufgabe(4);
 		aufgabe3.setText(temp.getName());
 		
 		aufgabe1.setOnAction( event -> {
 			Aufgabe laden = tr.getAufgabe(0);
+			Window.setAufgabenNummer(0);
 			name = laden.getName();
 			testName = name + "Test.java";
 			name += ".java";
@@ -38,7 +39,8 @@ public class AufgabenWindow extends Application
 		});
 		
 		aufgabe2.setOnAction( event -> {
-			Aufgabe laden = tr.getAufgabe(1);
+			Aufgabe laden = tr.getAufgabe(2);
+			Window.setAufgabenNummer(2);
 			name = laden.getName();
 			testName = name + "Test.java";
 			name += ".java";
@@ -49,7 +51,8 @@ public class AufgabenWindow extends Application
 		});
 		
 		aufgabe3.setOnAction( event -> {
-			Aufgabe laden = tr.getAufgabe(2);
+			Aufgabe laden = tr.getAufgabe(4);
+			Window.setAufgabenNummer(4);
 			name = laden.getName();
 			testName = name + "Test.java";
 			name += ".java";

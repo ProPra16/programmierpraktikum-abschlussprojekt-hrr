@@ -19,6 +19,8 @@ public class Window extends Application {
 	private static String className;
 	private static String classTestName;
 	private static TextArea editor = new TextArea();
+	private static int aufgabenNummer;
+	private int testNummer;
 	private boolean test;
 	private boolean refactor;
     private boolean code;
@@ -54,6 +56,7 @@ public class Window extends Application {
 				Stage temp = new Stage();
 				aw.start(temp);
 				phase.setText("Test schreiben");
+				testNummer = aufgabenNummer + 1;
 				aufgabe.setDisable(true);
 			}else
 			{
@@ -67,17 +70,25 @@ public class Window extends Application {
 		nPhase.setOnAction(event -> {
 			if(code)
 			{
-				//speichert Test und lädt Code in den Editor
-				lPhase.setDisable(false);
-				SaveLoad saveload = new SaveLoad();
-				saveload.speichern(classTestName, editor);
-				
-				saveload.laden(className, editor);
-				
-				phase.setText("Code schreiben");
-				phase.setStyle("-fx-border-color: black; -fx-background-color: lightgreen;");
-				code = false;
-				refactor = true;		//Leitet Refactoring ein
+				Aufgabe a = reader.getAufgabe(aufgabenNummer);
+				Tester test = new Tester();
+				if(test.CompileClass(a.getName(), a.getContent(), true) || test.testTesten(a.getName(), a.getContent(), true))
+				{
+					//speichert Test und lädt Code in den Editor
+					lPhase.setDisable(false);
+					SaveLoad saveload = new SaveLoad();
+					saveload.speichern(classTestName, editor);
+					
+					saveload.laden(className, editor);
+					
+					phase.setText("Code schreiben");
+					phase.setStyle("-fx-border-color: black; -fx-background-color: lightgreen;");
+					code = false;
+					refactor = true; //Leitet Refactoring ein
+				}else
+				{
+					System.out.println("Fehler");
+				}
 			}else if(test) {
 				//Lädt Test in den Editor
 				lPhase.setDisable(true);
@@ -177,5 +188,10 @@ public class Window extends Application {
 	public static void setClassTestName(String n)
 	{
 		classTestName = n;
+	}
+	
+	public static void setAufgabenNummer(int n)
+	{
+		aufgabenNummer = n;
 	}
 }
