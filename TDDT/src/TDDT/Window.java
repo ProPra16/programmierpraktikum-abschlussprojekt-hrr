@@ -71,12 +71,12 @@ public class Window extends Application {
 			if(code)
 			{
 				Aufgabe a = reader.getAufgabe(testNummer);		//Liest die Test-Klase ein
-				//System.out.println(a.getName());
+				System.out.println(a.getName());
 				Aufgabe b = reader.getAufgabe(aufgabenNummer);	//Liest die Aufgaben-Klasse ein
-				//System.out.println(b.getName());
+				System.out.println(b.getName());
 				Tester test = new Tester();
 				String inhalt = editor.getText();
-				if(test.CompileDas(a.getName(), inhalt, true))// || test.testTesten(a.getName(), inhalt, true, b.getName(), b.getContent(), false))
+				if(test.CompileDas(a.getName(), inhalt, true, b.getName(), b.getContent(), false))// || test.testTesten(a.getName(), inhalt, true, b.getName(), b.getContent(), false))
 				{
 					//speichert Test und lädt Code in den Editor
 					lPhase.setDisable(false);
