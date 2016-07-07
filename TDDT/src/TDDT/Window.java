@@ -74,9 +74,10 @@ public class Window extends Application {
 				System.out.println(a.getName());
 				Aufgabe b = reader.getAufgabe(aufgabenNummer);	//Liest die Aufgaben-Klasse ein
 				System.out.println(b.getName());
+				System.out.println(b.getContent());
 				Tester test = new Tester();
 				String inhalt = editor.getText();
-				if(test.CompileDas(a.getName(), inhalt, true, b.getName(), b.getContent(), false))// || test.testTesten(a.getName(), inhalt, true, b.getName(), b.getContent(), false))
+				if(test.CompileClass(a.getName(), inhalt, true) || test.testTesten(a.getName(), inhalt, true, b.getName(), b.getContent(), false))
 				{
 					//speichert Test und lädt Code in den Editor
 					lPhase.setDisable(false);
