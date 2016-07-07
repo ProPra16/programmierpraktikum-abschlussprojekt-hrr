@@ -69,7 +69,7 @@ set CMD_LINE_ARGS=%$
 :execute
 @rem Setup the command line
 
-set CLASSPATH=%APP_HOME%\lib\TDDT-0.0.1.jar;%APP_HOME%\lib\joda-time-2.2.jar;%APP_HOME%\lib\slf4j-api-1.7.21.jar
+set CLASSPATH=%APP_HOME%\lib\TDDT-0.0.1.jar;%APP_HOME%\lib\joda-time-2.2.jar;%APP_HOME%\lib\slf4j-api-1.7.21.jar;%APP_HOME%\lib\virtual-kata-lib-1.0.1.jar;%APP_HOME%\lib\junit-4.12.jar;%APP_HOME%\lib\hamcrest-core-1.3.jar
 
 @rem Execute TDDT
 "%JAVA_EXE%" %DEFAULT_JVM_OPTS% %JAVA_OPTS% %TDDT_OPTS%  -classpath "%CLASSPATH%" TDDT.Window %CMD_LINE_ARGS%

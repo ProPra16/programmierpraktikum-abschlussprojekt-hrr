@@ -53,6 +53,10 @@ public class TaskReader
 		return aufgaben[pos];
 	}
 	
+	public void setAufgabe(Aufgabe a, int pos)
+	{
+		aufgaben[pos] = a;
+	}
 	public boolean content()
 	{
 		if(aufgaben[0] != null)

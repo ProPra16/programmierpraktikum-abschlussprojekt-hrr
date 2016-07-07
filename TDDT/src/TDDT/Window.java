@@ -77,13 +77,14 @@ public class Window extends Application {
 				System.out.println(b.getContent());
 				Tester test = new Tester();
 				String inhalt = editor.getText();
-				if(test.CompileClass(a.getName(), inhalt, true) || test.testTesten(a.getName(), inhalt, true, b.getName(), b.getContent(), false))
+				if(test.CompileClass(a.getName(), inhalt, true, b.getName(), b.getContent(), false) || test.testTesten(a.getName(), inhalt, true, b.getName(), b.getContent(), false))
 				{
 					//speichert Test und lädt Code in den Editor
 					lPhase.setDisable(false);
 					SaveLoad saveload = new SaveLoad();
 					saveload.speichern(classTestName, editor);
-					
+					a.setText(editor.getText());
+					reader.setAufgabe(a, testNummer);
 					saveload.laden(className, editor);
 					
 					phase.setText("Code schreiben");
@@ -99,6 +100,9 @@ public class Window extends Application {
 				lPhase.setDisable(true);
 				SaveLoad saveload = new SaveLoad();
 				saveload.speichern(className, editor);
+				Aufgabe b = reader.getAufgabe(aufgabenNummer);
+				b.setText(editor.getText());
+				reader.setAufgabe(b, aufgabenNummer);
 				
 				saveload.laden(classTestName, editor);
 				
