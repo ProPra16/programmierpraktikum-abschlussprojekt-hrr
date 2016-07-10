@@ -53,6 +53,7 @@
 				
 				if(reader.content())
 				{
+					editorLR.setDisable(true);
 					code = true; 		//Sprungvariable Nächste Phase Codebearbeiten
 					AufgabenWindow aw = new AufgabenWindow();
 					Stage temp = new Stage();
@@ -88,7 +89,8 @@
 						a.setText(editorL.getText());
 						reader.setAufgabe(a, testNummer);
 						saveload.laden(className, editorL);
-						
+						editorL.setDisable(true);
+						editorLR.setDisable(false);
 						phase.setText("Code schreiben");
 						phase.setStyle("-fx-border-color: black; -fx-background-color: lightgreen;");
 						code = false;
