@@ -29,6 +29,7 @@ public class AufgabenWindow extends Application
 		aufgabe1.setOnAction( event -> {
 			Aufgabe laden = tr.getAufgabe(0);
 			Window.setAufgabenNummer(0);
+			Window.setTestNummer(1);
 			name = laden.getName();
 			testName = name + "Test.java";
 			name += ".java";
@@ -41,6 +42,7 @@ public class AufgabenWindow extends Application
 		aufgabe2.setOnAction( event -> {
 			Aufgabe laden = tr.getAufgabe(2);
 			Window.setAufgabenNummer(2);
+			Window.setTestNummer(3);
 			name = laden.getName();
 			testName = name + "Test.java";
 			name += ".java";
@@ -53,8 +55,11 @@ public class AufgabenWindow extends Application
 		aufgabe3.setOnAction( event -> {
 			Aufgabe laden = tr.getAufgabe(4);
 			Window.setAufgabenNummer(4);
+			Window.setTestNummer(5);
 			name = laden.getName();
+			System.out.println("AufgabenWindow Name: "+name);
 			testName = name + "Test.java";
+			System.out.println("AufgabenWindow TestName: "+testName);
 			name += ".java";
 			namenSetzen();
 			SaveLoad sl = new SaveLoad();

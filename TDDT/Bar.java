@@ -1,5 +1,5 @@
 public class Bar {
 public static int fourtyTwo() {
-  return 41 + 2;
+  return 41 + 1;
  }
 }

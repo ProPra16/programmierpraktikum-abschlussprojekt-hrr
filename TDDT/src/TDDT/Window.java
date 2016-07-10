@@ -1,18 +1,22 @@
 
 	package TDDT;
+	
+import javax.swing.JFileChooser;
 
-	import javax.swing.JFileChooser;
-
-	import javafx.application.Application;
-	import javafx.geometry.Insets;
-	import javafx.geometry.Pos;
-	import javafx.scene.Scene;
-	import javafx.scene.control.Alert;
-	import javafx.scene.control.Button;
-	import javafx.scene.control.TextArea;
-	import javafx.scene.layout.BorderPane;
-	import javafx.scene.layout.GridPane;
-	import javafx.stage.*;
+import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
+import javafx.stage.*;
 
 	public class Window extends Application {
 		
@@ -22,10 +26,14 @@
 		private static TextArea editorL = new TextArea();
 		private static TextArea editorLR = new TextArea();
 		private static int aufgabenNummer;
-		private int testNummer;
+		private static int testNummer;
 		private boolean test;
 		private boolean refactor;
-	    private boolean code;
+	    private static boolean code;
+	    private static int zeit;
+	    private static boolean babysteps;
+	    private static Button baby = new Button("Babysteps");
+	    private static TextField zeitAnzeige = new TextField();
 		
 		@Override
 		public void start(Stage primaryStage) {
@@ -35,6 +43,7 @@
 			Button nPhase  = new Button("Nächste Phase");
 			Button lPhase  = new Button("Letzte Phase    ");
 			lPhase.setDisable(true); 						//Nur in der Codephase ausführbar
+			baby.setDisable(true);
 			phase.setMinSize(50, 50);
 			phase.setText("Katalog auswählen");
 			phase.setStyle("-fx-border-color: black; -fx-background-color: red;");
@@ -45,9 +54,15 @@
 				fileChooser.showOpenDialog(null);
 				reader.read(fileChooser.getSelectedFile());
 				katalog.setDisable(true);
+				baby.setDisable(false);
 				phase.setText("Aufgabe auswählen");
 			});
 			
+			baby.setOnAction(event -> {
+				Countdown c = new Countdown();
+				Stage temp =  new Stage();
+				c.start(temp);
+			});
 			aufgabe.setOnAction(event -> {
 				//Wenn Aufgabe gewählt , schreibe Test
 				
@@ -59,8 +74,13 @@
 					Stage temp = new Stage();
 					aw.start(temp);
 					phase.setText("Test schreiben");
-					testNummer = aufgabenNummer + 1;
+					
 					aufgabe.setDisable(true);
+					//baby.setDisable(true);
+					if(babysteps)
+					{
+						WindowTimer timer = new WindowTimer(zeit);
+					}
 				}else
 				{
 					Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -70,12 +90,14 @@
 				}
 			});
 			
-			nPhase.setOnAction(event -> {
+			nPhase.setOnAction(event -> { //ROT
+				Aufgabe a = new Aufgabe();
+				Aufgabe b = new Aufgabe();
 				if(code)
 				{
-					Aufgabe a = reader.getAufgabe(testNummer);		//Liest die Test-Klase ein
+					a = reader.getAufgabe(testNummer);		//Liest die Test-Klase ein
 					System.out.println(a.getName());
-					Aufgabe b = reader.getAufgabe(aufgabenNummer);	//Liest die Aufgaben-Klasse ein
+					b = reader.getAufgabe(aufgabenNummer);	//Liest die Aufgaben-Klasse ein
 					System.out.println(b.getName());
 					System.out.println(b.getContent());
 					Tester test = new Tester();
@@ -88,47 +110,80 @@
 						saveload.speichern(classTestName, editorL);
 						a.setText(editorL.getText());
 						reader.setAufgabe(a, testNummer);
-						saveload.laden(className, editorL);
+						saveload.laden(className, editorLR);
 						editorL.setDisable(true);
 						editorLR.setDisable(false);
 						phase.setText("Code schreiben");
 						phase.setStyle("-fx-border-color: black; -fx-background-color: lightgreen;");
 						code = false;
 						refactor = true; //Leitet Refactoring ein
+						if(babysteps)
+						{
+							WindowTimer timer2 = new WindowTimer(zeit);
+						}
 					}else
 					{
 						System.out.println("Fehler");
 					}
-				}else if(test) {
-					//Lädt Test in den editorL
-					lPhase.setDisable(true);
-					SaveLoad saveload = new SaveLoad();
-					saveload.speichern(className, editorL);
-					Aufgabe b = reader.getAufgabe(aufgabenNummer);
-					b.setText(editorL.getText());
-					reader.setAufgabe(b, aufgabenNummer);
+				}else if(test) { //SCHWARZ
+					a = reader.getAufgabe(testNummer);
+					b = reader.getAufgabe(aufgabenNummer);
+					Tester test2 = new Tester();
+					String inhalt2 = editorLR.getText(); 
+					if(test2.funktTesten(a.getName(), a.getContent(), true, b.getName(), inhalt2, false))
+					{
+						//Lädt Test in den editorL
+						lPhase.setDisable(true);
+						SaveLoad saveload = new SaveLoad();
+						saveload.speichern(className, editorLR);
 					
-					saveload.laden(classTestName, editorL);
+						b.setText(editorLR.getText());
+						reader.setAufgabe(b, aufgabenNummer);
+						editorL.setDisable(false);
+						editorLR.setDisable(true);
+						phase.setText("Test schreiben");
+						phase.setStyle("-fx-border-color: black; -fx-background-color: red;");
+						test = false;
+						code = true;
+						if(babysteps)
+						{
+							WindowTimer timer3 = new WindowTimer(zeit);
+						}
+					}else
+					{
+						System.out.println("Fehler!");
+					}
+				}else if(refactor) { //GREEN
 					
-					phase.setText("Test schreiben");
-					phase.setStyle("-fx-border-color: black; -fx-background-color: red;");
-					test = false;
-					code = true;
-				}else if(refactor) {
 					//Refactoring Phase
-					lPhase.setDisable(true);
-					phase.setText("REFACTORING");
-					phase.setStyle("-fx-border-color: white; -fx-background-color: black;");
-					refactor = false;
-					test = true;
+					a = reader.getAufgabe(testNummer);
+					b = reader.getAufgabe(aufgabenNummer);
+					Tester test2 = new Tester();
+					String inhalt3 = editorLR.getText();
+					if(test2.funktTesten(a.getName(), a.getContent(), true, b.getName(), inhalt3, false))
+					{
+						lPhase.setDisable(true);
+						SaveLoad saveload = new SaveLoad();
+						saveload.speichern(className, editorLR);
+						
+						b.setText(editorLR.getText());
+						reader.setAufgabe(b, aufgabenNummer);
+						
+						phase.setText("REFACTORING");
+						phase.setStyle("-fx-border-color: white; -fx-background-color: black;");
+						refactor = false;
+						test = true;
+					}else
+					{
+						System.out.println("Fehler!");
+					}
 				}
 			}); 
 			
 			//Button um letzte Phase aufrufen zu können
 			lPhase.setOnAction(event -> {
-				SaveLoad saveload = new SaveLoad();
-				saveload.laden(classTestName, editorL);
-				
+				editorLR.setDisable(true);
+				editorL.setDisable(false);
 				phase.setText("Test schreiben");
 				phase.setStyle("-fx-border-color: black; -fx-background-color: red;");
 				code = true;
@@ -171,11 +226,29 @@
 			borderpane.setCenter(editorPane);
 			editorPane.setLeft(editorL);
 			editorPane.setRight(editorLR);
+			VBox box = new VBox();
+			box.getChildren().addAll(baby, zeitAnzeige);
+			editorPane.setCenter(box);
 			
 			Scene scene = new Scene(borderpane, 1200, 500);
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("TDDT");
 			primaryStage.show();
+		}
+		
+		public static void abgelaufen()
+		{
+			if(code)
+			{
+				SaveLoad einlesen = new SaveLoad();
+				aufgabenEinlesen(einlesen);
+				WindowTimer timer4 = new WindowTimer(zeit);
+			}else
+			{
+				SaveLoad einlesen = new SaveLoad();
+				testEinlesen(einlesen);
+				WindowTimer timer4 = new WindowTimer(zeit);
+			}
 		}
 
 		public static void main(String[] args) {
@@ -185,6 +258,11 @@
 		public static TaskReader getReader()
 		{
 			return reader;
+		}
+		
+		public static void testEinlesen(SaveLoad s)
+		{
+			s.laden(className, editorLR);
 		}
 		
 		public static void aufgabenEinlesen(SaveLoad s)
@@ -206,6 +284,22 @@
 		public static void setAufgabenNummer(int n)
 		{
 			aufgabenNummer = n;
+		}
+		
+		public static void setTestNummer(int n)
+		{
+			testNummer = n;
+		}
+		
+		public static void speicher(int t)
+		{
+			zeit = t;
+			babysteps = true;
+		}
+		
+		public static void setZeit(int z)
+		{
+			//Zeitanzeige einbauen
 		}
 }
 
