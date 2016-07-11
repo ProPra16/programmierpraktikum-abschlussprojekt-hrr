@@ -34,6 +34,7 @@ import javafx.stage.*;
 	    private static boolean babysteps;
 	    private static Button baby = new Button("Babysteps");
 	    private static TextField zeitAnzeige = new TextField();
+	    private static String anzeige = "";
 		
 		@Override
 		public void start(Stage primaryStage) {
@@ -226,8 +227,11 @@ import javafx.stage.*;
 			borderpane.setCenter(editorPane);
 			editorPane.setLeft(editorL);
 			editorPane.setRight(editorLR);
-			VBox box = new VBox();
-			box.getChildren().addAll(baby, zeitAnzeige);
+			GridPane box = new GridPane();
+			box.setAlignment(Pos.CENTER);
+			box.add(baby,0,0);
+			box.setVgap(5);
+			box.add(zeitAnzeige, 0, 1);
 			editorPane.setCenter(box);
 			
 			Scene scene = new Scene(borderpane, 1200, 500);
@@ -297,9 +301,15 @@ import javafx.stage.*;
 			babysteps = true;
 		}
 		
-		public static void setZeit(int z)
+		public static void setAnzeige(int s)
 		{
-			//Zeitanzeige einbauen
+			anzeige = String.valueOf(s);
+			setZeit();
+		}
+		
+		public static void setZeit()
+		{
+			zeitAnzeige.setText(anzeige);
 		}
 }
 
