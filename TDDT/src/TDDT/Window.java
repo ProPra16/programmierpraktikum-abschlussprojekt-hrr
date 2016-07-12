@@ -27,7 +27,7 @@ import javafx.stage.*;
 	    private static Button baby = new Button("Babysteps");
 	    private static TextField zeitAnzeige = new TextField();
 	    private static String anzeige = "";
-		
+		private static WindowTimer timer;
 		@Override
 		public void start(Stage primaryStage) {
 			Button katalog = new Button("Wähle Katalog ");
@@ -72,7 +72,7 @@ import javafx.stage.*;
 					//baby.setDisable(true);
 					if(babysteps)
 					{
-						WindowTimer timer = new WindowTimer(zeit);
+						timer = new WindowTimer(zeit);
 					}
 				}else
 				{
@@ -98,6 +98,7 @@ import javafx.stage.*;
 					if(test.CompileClass(a.getName(), inhalt, true, b.getName(), b.getContent(), false) || test.testTesten(a.getName(), inhalt, true, b.getName(), b.getContent(), false))
 					{
 						//speichert Test und lädt Code in den editorL
+						timer.beenden();
 						lPhase.setDisable(false);
 						SaveLoad saveload = new SaveLoad();
 						saveload.speichern(classTestName, editorL);
@@ -112,7 +113,7 @@ import javafx.stage.*;
 						refactor = true; //Leitet Refactoring ein
 						if(babysteps)
 						{
-							WindowTimer timer = new WindowTimer(zeit);
+							timer = new WindowTimer(zeit);
 						}
 					}else
 					{
@@ -126,6 +127,7 @@ import javafx.stage.*;
 					if(test2.funktTesten(a.getName(), a.getContent(), true, b.getName(), inhalt2, false))
 					{
 						//Lädt Test in den editorL
+						timer.beenden();
 						lPhase.setDisable(true);
 						SaveLoad saveload = new SaveLoad();
 						saveload.speichern(className, editorLR);
@@ -140,7 +142,7 @@ import javafx.stage.*;
 						code = true;
 						if(babysteps)
 						{
-							WindowTimer timer = new WindowTimer(zeit);
+							timer = new WindowTimer(zeit);
 						}
 					}else
 					{
@@ -155,6 +157,7 @@ import javafx.stage.*;
 					String inhalt3 = editorLR.getText();
 					if(test2.funktTesten(a.getName(), a.getContent(), true, b.getName(), inhalt3, false))
 					{
+						timer.beenden();
 						lPhase.setDisable(true);
 						SaveLoad saveload = new SaveLoad();
 						saveload.speichern(className, editorLR);
@@ -175,11 +178,16 @@ import javafx.stage.*;
 			
 			//Button um letzte Phase aufrufen zu können
 			lPhase.setOnAction(event -> {
+				timer.beenden();
 				editorLR.setDisable(true);
 				editorL.setDisable(false);
 				phase.setText("Test schreiben");
 				phase.setStyle("-fx-border-color: black; -fx-background-color: red;");
 				code = true;
+				if(babysteps)
+				{
+					timer = new WindowTimer(zeit);
+				}
 			});
 					
 			
@@ -238,12 +246,12 @@ import javafx.stage.*;
 			{
 				SaveLoad einlesen = new SaveLoad();
 				aufgabenEinlesen(einlesen);
-				WindowTimer timer = new WindowTimer(zeit);
+				timer = new WindowTimer(zeit);
 			}else
 			{
 				SaveLoad einlesen = new SaveLoad();
 				testEinlesen(einlesen);
-				WindowTimer timer = new WindowTimer(zeit);
+				timer = new WindowTimer(zeit);
 			}
 		}
 
