@@ -43,7 +43,7 @@ public class Tester
 	
 	public boolean funktTesten(String Tname, String Tcontent, boolean Ttest, String Cname, String Ccontent, boolean Ctest)
 	{
-		CompilationUnit testClass = new CompilationUnit(Tname,Tcontent,Ttest);					//Ob es einen fehlschlagenen Test gibt
+		CompilationUnit testClass = new CompilationUnit(Tname,Tcontent,Ttest);					//Ob es keinen fehlschlagenen Test gibt
 		CompilationUnit klasse = new CompilationUnit(Cname,Ccontent,Ctest);
 		JavaStringCompiler compiler = CompilerFactory.getCompiler(testClass, klasse);
 		compiler.compileAndRunTests();
@@ -54,7 +54,7 @@ public class Tester
 			System.out.println(result.getNumberOfFailedTests());
 			if(result.getNumberOfFailedTests() == 0)
 			{
-				return true; // Es gibt genau einen fehlschlagenden Test
+				return true; // Es gibt keinen fehlschlagenden Test
 			}else
 			{
 				return false; // Es ist entweder nicht kompilierbar oder es gibt mehr als einen fehlschlagenden Test

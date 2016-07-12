@@ -4,18 +4,10 @@
 import javax.swing.JFileChooser;
 
 import javafx.application.Application;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
+import javafx.geometry.*;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
 import javafx.stage.*;
 
 	public class Window extends Application {
@@ -120,7 +112,7 @@ import javafx.stage.*;
 						refactor = true; //Leitet Refactoring ein
 						if(babysteps)
 						{
-							WindowTimer timer2 = new WindowTimer(zeit);
+							WindowTimer timer = new WindowTimer(zeit);
 						}
 					}else
 					{
@@ -148,7 +140,7 @@ import javafx.stage.*;
 						code = true;
 						if(babysteps)
 						{
-							WindowTimer timer3 = new WindowTimer(zeit);
+							WindowTimer timer = new WindowTimer(zeit);
 						}
 					}else
 					{
@@ -246,12 +238,12 @@ import javafx.stage.*;
 			{
 				SaveLoad einlesen = new SaveLoad();
 				aufgabenEinlesen(einlesen);
-				WindowTimer timer4 = new WindowTimer(zeit);
+				WindowTimer timer = new WindowTimer(zeit);
 			}else
 			{
 				SaveLoad einlesen = new SaveLoad();
 				testEinlesen(einlesen);
-				WindowTimer timer4 = new WindowTimer(zeit);
+				WindowTimer timer = new WindowTimer(zeit);
 			}
 		}
 
