@@ -4,11 +4,15 @@
 import javax.swing.JFileChooser;
 
 import javafx.application.Application;
-import javafx.geometry.*;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.layout.*;
-import javafx.stage.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
 
 	public class Window extends Application {
 		
@@ -76,10 +80,11 @@ import javafx.stage.*;
 					}
 				}else
 				{
-					Alert alert = new Alert(Alert.AlertType.INFORMATION);
-					alert.setTitle("Keine Aufgaben vorhaneden!");
-					alert.setContentText("Wählen sie zuerst einen Katalog aus, bevor sie Aufgaben auswählen");
-					alert.showAndWait();
+				//	Alert alert = new Alert(Alert.AlertType.INFORMATION);
+				//	alert.setTitle("Keine Aufgaben vorhaneden!");
+				//	alert.setContentText("Wählen sie zuerst einen Katalog aus, bevor sie Aufgaben auswählen");
+				//	alert.showAndWait();
+					System.out.println("Zuerst Katalog auswählen");
 				}
 			});
 			
