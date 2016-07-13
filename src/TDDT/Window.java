@@ -37,6 +37,7 @@ import javafx.stage.Stage;
 		private static ArrayList verlauf = new ArrayList();
 		private static Tracking verlaufsZeit;
 		private static Log doc;
+		private static Tester testX = new Tester();
 		
 		@Override
 		public void start(Stage primaryStage) {
@@ -108,9 +109,9 @@ import javafx.stage.Stage;
 					b = reader.getAufgabe(aufgabenNummer);	//Liest die Aufgaben-Klasse ein
 					System.out.println(b.getName());
 					System.out.println(b.getContent());
-					Tester test = new Tester();
+				//	testX = new Tester();
 					String inhalt = editorL.getText();
-					if(test.CompileClass(a.getName(), inhalt, true, b.getName(), b.getContent(), false) || test.testTesten(a.getName(), inhalt, true, b.getName(), b.getContent(), false))
+					if(testX.CompileClass(a.getName(), inhalt, true, b.getName(), b.getContent(), false) || testX.testTesten(a.getName(), inhalt, true, b.getName(), b.getContent(), false))
 					{
 						verlauf.add(verlaufsZeit.getSecondPassed());		//Für Log
 						
@@ -142,9 +143,9 @@ import javafx.stage.Stage;
 				}else if(test) { //SCHWARZ
 					a = reader.getAufgabe(testNummer);
 					b = reader.getAufgabe(aufgabenNummer);
-					Tester test2 = new Tester();
+				//	Tester testX = new Tester();
 					String inhalt2 = editorLR.getText(); 
-					if(test2.funktTesten(a.getName(), a.getContent(), true, b.getName(), inhalt2, false))
+					if(testX.funktTesten(a.getName(), a.getContent(), true, b.getName(), inhalt2, false))
 					{
 						verlauf.add(verlaufsZeit.getSecondPassed());
 						//Lädt Test in den editorL
@@ -176,9 +177,9 @@ import javafx.stage.Stage;
 					//Refactoring Phase
 					a = reader.getAufgabe(testNummer);
 					b = reader.getAufgabe(aufgabenNummer);
-					Tester test2 = new Tester();
+			//		Tester test2 = new Tester();
 					String inhalt3 = editorLR.getText();
-					if(test2.funktTesten(a.getName(), a.getContent(), true, b.getName(), inhalt3, false))
+					if(testX.funktTesten(a.getName(), a.getContent(), true, b.getName(), inhalt3, false))
 					{
 						verlauf.add(verlaufsZeit.getSecondPassed());
 						if(babysteps){
