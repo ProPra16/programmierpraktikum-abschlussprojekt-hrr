@@ -84,7 +84,8 @@ import javafx.stage.Stage;
 				//	alert.setTitle("Keine Aufgaben vorhaneden!");
 				//	alert.setContentText("Wählen sie zuerst einen Katalog aus, bevor sie Aufgaben auswählen");
 				//	alert.showAndWait();
-					System.out.println("Zuerst Katalog auswählen");
+					AlertWindow alert = new AlertWindow();
+					alert.display();
 				}
 			});
 			
