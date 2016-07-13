@@ -1,6 +1,8 @@
 
 	package TDDT;
 	
+import java.util.ArrayList;
+
 import javax.swing.JFileChooser;
 
 import javafx.application.Application;
@@ -32,6 +34,10 @@ import javafx.stage.Stage;
 	    private static TextField zeitAnzeige = new TextField();
 	    private static String anzeige = "";
 		private static WindowTimer timer;
+		private static ArrayList verlauf = new ArrayList();
+		private static Tracking verlaufsZeit;
+		private static Log doc;
+		
 		@Override
 		public void start(Stage primaryStage) {
 			Button katalog = new Button("Wähle Katalog ");
@@ -39,6 +45,8 @@ import javafx.stage.Stage;
 			Button phase   = new Button();
 			Button nPhase  = new Button("Nächste Phase");
 			Button lPhase  = new Button("Letzte Phase    ");
+			Button makeLog = new Button("Erstelle Log");
+			
 			lPhase.setDisable(true); 						//Nur in der Codephase ausführbar
 			baby.setDisable(true);
 			phase.setMinSize(50, 50);
@@ -74,6 +82,7 @@ import javafx.stage.Stage;
 					
 					aufgabe.setDisable(true);
 					//baby.setDisable(true);
+					verlaufsZeit = new Tracking(); 		//Log
 					if(babysteps)
 					{
 						timer = new WindowTimer(zeit);
@@ -103,8 +112,13 @@ import javafx.stage.Stage;
 					String inhalt = editorL.getText();
 					if(test.CompileClass(a.getName(), inhalt, true, b.getName(), b.getContent(), false) || test.testTesten(a.getName(), inhalt, true, b.getName(), b.getContent(), false))
 					{
+						verlauf.add(verlaufsZeit.getSecondPassed());		//Für Log
+						
+						
 						//speichert Test und lädt Code in den editorL
-						timer.beenden();
+						if(babysteps){
+							timer.beenden();
+						}
 						lPhase.setDisable(false);
 						SaveLoad saveload = new SaveLoad();
 						saveload.speichern(classTestName, editorL);
@@ -132,8 +146,11 @@ import javafx.stage.Stage;
 					String inhalt2 = editorLR.getText(); 
 					if(test2.funktTesten(a.getName(), a.getContent(), true, b.getName(), inhalt2, false))
 					{
+						verlauf.add(verlaufsZeit.getSecondPassed());
 						//Lädt Test in den editorL
-						timer.beenden();
+						if(babysteps){
+							timer.beenden();
+						}
 						lPhase.setDisable(true);
 						SaveLoad saveload = new SaveLoad();
 						saveload.speichern(className, editorLR);
@@ -163,7 +180,10 @@ import javafx.stage.Stage;
 					String inhalt3 = editorLR.getText();
 					if(test2.funktTesten(a.getName(), a.getContent(), true, b.getName(), inhalt3, false))
 					{
-						timer.beenden();
+						verlauf.add(verlaufsZeit.getSecondPassed());
+						if(babysteps){
+							timer.beenden();
+						}
 						lPhase.setDisable(true);
 						SaveLoad saveload = new SaveLoad();
 						saveload.speichern(className, editorLR);
@@ -184,7 +204,9 @@ import javafx.stage.Stage;
 			
 			//Button um letzte Phase aufrufen zu können
 			lPhase.setOnAction(event -> {
-				timer.beenden();
+				if(babysteps){
+					timer.beenden();
+				}
 				editorLR.setDisable(true);
 				editorL.setDisable(false);
 				phase.setText("Test schreiben");
@@ -195,7 +217,12 @@ import javafx.stage.Stage;
 					timer = new WindowTimer(zeit);
 				}
 			});
-					
+			
+			makeLog.setOnAction(event -> {
+				doc = new Log();
+				System.out.println("Inhalt Liste: " + verlauf.get(0));
+				doc.erstelleLog(verlauf);
+			});
 			
 			
 			GridPane left = new GridPane(); 
@@ -233,11 +260,14 @@ import javafx.stage.Stage;
 			borderpane.setCenter(editorPane);
 			editorPane.setLeft(editorL);
 			editorPane.setRight(editorLR);
-			GridPane box = new GridPane();
+			
+			GridPane box = new GridPane();			
 			box.setAlignment(Pos.CENTER);
 			box.add(baby,0,0);
-			box.setVgap(5);
+			box.setVgap(5);			
+			zeitAnzeige.setMaxWidth(50);			
 			box.add(zeitAnzeige, 0, 1);
+			box.add(makeLog, 0, 2);
 			editorPane.setCenter(box);
 			
 			Scene scene = new Scene(borderpane, 1200, 500);
