@@ -20,10 +20,7 @@ public class Log {
 	}
 	
 	public void erstelleLog(ArrayList log2){
-		
-		System.out.println("Listeninhalt in Methode: " + log2.get(0));
-		BufferedWriter writer = null; 
-		
+		BufferedWriter writer = null; 		
 		try {			
 			writer = new BufferedWriter( new FileWriter("Log.txt"));	
 			
@@ -58,7 +55,6 @@ public class Log {
 			System.out.println(e.getMessage()+"\n");
 		}		
 		Tester test = Window.getTester();
-		System.out.println("ErrorString: "+test.getErrorString());
 		Fehlerlog(test.getErrorString());
 	}
 	

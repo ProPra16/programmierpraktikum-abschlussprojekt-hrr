@@ -1,7 +1,5 @@
 package TDDT;
 
-import java.util.ArrayList;
-
 import vk.core.api.CompilationUnit;
 import vk.core.api.CompilerFactory;
 import vk.core.api.CompilerResult;
@@ -11,8 +9,8 @@ import vk.core.api.TestResult;
 public class Tester
 {	
 	
-	ArrayList <String>errorListe = new ArrayList<String>();
 	String errors = "";
+	String errors2 = "";
 	
 	public Tester()	{
 		
@@ -25,9 +23,6 @@ public class Tester
 		JavaStringCompiler compiler = CompilerFactory.getCompiler(testClass, klasse);
 		compiler.compileAndRunTests();
 		CompilerResult result = compiler.getCompilerResult();
-		System.out.println("Ergebnis: " +result.hasCompileErrors());
-		
-		
 		return result.hasCompileErrors(); //  false = compilierbar
 	}
 	
@@ -41,7 +36,6 @@ public class Tester
 		if(!fehler.hasCompileErrors())
 		{
 			TestResult result = compiler.getTestResult();
-			System.out.println(result.getNumberOfFailedTests());
 			if(result.getNumberOfFailedTests() == 1)
 			{
 				return true; // Es gibt genau einen fehlschlagenden Test
@@ -64,26 +58,25 @@ public class Tester
 		if(!fehler.hasCompileErrors())
 		{
 			TestResult result = compiler.getTestResult();
-			System.out.println(result.getNumberOfFailedTests());
 			if(result.getNumberOfFailedTests() == 0)
 			{
 				return true; // Es gibt keinen fehlschlagenden Test
 			}else
 			{
+				errors2 = "Es gibt noch fehlschlagende Tests!";
 				return false; // Es ist entweder nicht kompilierbar oder es gibt mehr als einen fehlschlagenden Test
 			}
 		}
 		errors += fehler.getCompilerErrorsForCompilationUnit(klasse).toString() + 
 				"\n----------------------------------------------------------------------\n";
+		errors2 = fehler.getCompilerErrorsForCompilationUnit(klasse).toString();
 		return false;
-	}
-	
-	public ArrayList getErrorList(){		//		
-		
-		return errorListe;
 	}
 	
 	public String getErrorString(){
 		return errors;
+	}
+	public String getError2String(){
+		return errors2;
 	}
 }

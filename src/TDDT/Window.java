@@ -41,12 +41,21 @@ import javafx.stage.Stage;
 		
 		@Override
 		public void start(Stage primaryStage) {
+			
+			primaryStage.setOnCloseRequest(event -> {
+				event.consume();
+				if(babysteps) timer.beenden();
+				System.exit(1);
+				primaryStage.close();
+			});
+			
 			Button katalog = new Button("Wähle Katalog ");
 			Button aufgabe = new Button("Wähle Aufgabe");
 			Button phase   = new Button();
 			Button nPhase  = new Button("Nächste Phase");
 			Button lPhase  = new Button("Letzte Phase    ");
 			Button makeLog = new Button("Erstelle Log");
+			makeLog.setDisable(true);
 			
 			lPhase.setDisable(true); 						//Nur in der Codephase ausführbar
 			baby.setDisable(true);
@@ -65,35 +74,31 @@ import javafx.stage.Stage;
 			});
 			
 			baby.setOnAction(event -> {
+				if(babysteps){
+					timer.beenden();
+				}
 				Countdown c = new Countdown();
 				Stage temp =  new Stage();
 				c.start(temp);
+
 			});
 			aufgabe.setOnAction(event -> {
 				//Wenn Aufgabe gewählt , schreibe Test
 				
 				if(reader.content())
 				{
-					editorLR.setDisable(true);
-					code = true; 		//Sprungvariable Nächste Phase Codebearbeiten
-					AufgabenWindow aw = new AufgabenWindow();
-					Stage temp = new Stage();
-					aw.start(temp);
-					phase.setText("Test schreiben");
-					
-					//aufgabe.setDisable(true);
-					//baby.setDisable(true);
+						editorLR.setDisable(true);
+						editorLR.setText("");
+						editorL.setDisable(false);
+						code = true; 									//Sprungvariable Nächste Phase Codebearbeiten
+						AufgabenWindow aw = new AufgabenWindow();
+						Stage temp = new Stage();
+						aw.start(temp);
+						phase.setText("Test schreiben");
+						phase.setStyle("-fx-border-color: black; -fx-background-color: red;");
 					verlaufsZeit = new Tracking(); 		//Log
-					if(babysteps)
-					{
-						timer = new WindowTimer(zeit);
-					}
 				}else
 				{
-				//	Alert alert = new Alert(Alert.AlertType.INFORMATION);
-				//	alert.setTitle("Keine Aufgaben vorhaneden!");
-				//	alert.setContentText("Wählen sie zuerst einen Katalog aus, bevor sie Aufgaben auswählen");
-				//	alert.showAndWait();
 					AlertWindow alert = new AlertWindow();
 					alert.display("Aufgaben im Katalog", "Wählen sie zuerst einen Katalog aus, bevor sie Aufgaben auswählen");
 				}
@@ -102,14 +107,11 @@ import javafx.stage.Stage;
 			nPhase.setOnAction(event -> { //ROT
 				Aufgabe a = new Aufgabe();
 				Aufgabe b = new Aufgabe();
+				makeLog.setDisable(false);
 				if(code)
 				{
 					a = reader.getAufgabe(testNummer);		//Liest die Test-Klase ein
-					System.out.println(a.getName());
 					b = reader.getAufgabe(aufgabenNummer);	//Liest die Aufgaben-Klasse ein
-					System.out.println(b.getName());
-					System.out.println(b.getContent());
-				//	testX = new Tester();
 					String inhalt = editorL.getText();
 					if(testX.CompileClass(a.getName(), inhalt, true, b.getName(), b.getContent(), false) || testX.testTesten(a.getName(), inhalt, true, b.getName(), b.getContent(), false))
 					{
@@ -132,15 +134,10 @@ import javafx.stage.Stage;
 						phase.setStyle("-fx-border-color: black; -fx-background-color: lightgreen;");
 						code = false;
 						refactor = true; //Leitet Refactoring ein
-						babysteps = false;
-					
 						if(babysteps)
 						{
 							timer = new WindowTimer(zeit);
 						}	
-					}else
-					{
-						System.out.println("Fehler");
 					}
 				}else if(test) { //SCHWARZ
 					a = reader.getAufgabe(testNummer);
@@ -172,7 +169,9 @@ import javafx.stage.Stage;
 						}
 					}else
 					{
-						System.out.println("Fehler!");
+						
+						AlertWindow alert = new AlertWindow();
+						alert.display("CompileError", testX.getError2String());
 					}
 				}else if(refactor) { //GREEN
 					
@@ -200,7 +199,8 @@ import javafx.stage.Stage;
 						test = true;
 					}else
 					{
-						System.out.println("Fehler!");
+						AlertWindow alert = new AlertWindow();
+						alert.display("CompileError", testX.getError2String());
 					}
 				}
 			}); 
@@ -224,8 +224,9 @@ import javafx.stage.Stage;
 			
 			makeLog.setOnAction(event -> {
 				doc = new Log();
-				System.out.println("Inhalt Liste: " + verlauf.get(0));
 				doc.erstelleLog(verlauf);
+				AlertWindow alert = new AlertWindow();
+				alert.display("Log erstellt", "  Zeitübersicht in Log.txt erstellt. \n  Fehlerübersicht in FehlerLog.txt gespeichert.");
 			});
 			
 			
@@ -338,6 +339,7 @@ import javafx.stage.Stage;
 		public static void speicher(int t)
 		{
 			zeit = t;
+			timer = new WindowTimer(zeit);
 			babysteps = true;
 		}
 		

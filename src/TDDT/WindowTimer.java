@@ -12,7 +12,7 @@ public class WindowTimer {
 	//timer wird gestartet
 	TimerTask task = new TimerTask() {
 		public void run() {
-			if(secondsPassed == max)
+			if(secondsPassed >= max)
 			{
 				Window.abgelaufen();
 				task.cancel();
@@ -31,5 +31,7 @@ public class WindowTimer {
 	public void beenden()
 	{
 		task.cancel();
+		
 	}
+	
 }

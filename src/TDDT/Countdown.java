@@ -20,9 +20,14 @@ public class Countdown extends Application {
 		TextField eingabe = new TextField();
 		Button save = new Button("Speichern");
 		save.setOnAction(event -> {
-			max = Integer.parseInt(eingabe.getText());
-			Window.speicher(max);
-			primaryStage.close();
+			if(Integer.parseInt(eingabe.getText()) > 180 || Integer.parseInt(eingabe.getText()) < 0 ){
+				AlertWindow achtung = new AlertWindow();
+				achtung.display("FEHLER", "Eingabe muss über 0 und unter 180 sein!");
+			}else{
+				max = Integer.parseInt(eingabe.getText());
+				Window.speicher(max);
+				primaryStage.close();
+			}
 		});
 		VBox hb = new VBox();
 		hb.getChildren().addAll(auf, eingabe, save);

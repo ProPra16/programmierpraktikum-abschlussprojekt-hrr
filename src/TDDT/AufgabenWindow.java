@@ -57,9 +57,7 @@ public class AufgabenWindow extends Application
 			Window.setAufgabenNummer(4);
 			Window.setTestNummer(5);
 			name = laden.getName();
-			System.out.println("AufgabenWindow Name: "+name);
 			testName = name + "Test.java";
-			System.out.println("AufgabenWindow TestName: "+testName);
 			name += ".java";
 			namenSetzen();
 			SaveLoad sl = new SaveLoad();
