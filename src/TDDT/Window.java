@@ -81,7 +81,7 @@ import javafx.stage.Stage;
 					aw.start(temp);
 					phase.setText("Test schreiben");
 					
-					aufgabe.setDisable(true);
+					//aufgabe.setDisable(true);
 					//baby.setDisable(true);
 					verlaufsZeit = new Tracking(); 		//Log
 					if(babysteps)
@@ -95,7 +95,7 @@ import javafx.stage.Stage;
 				//	alert.setContentText("Wählen sie zuerst einen Katalog aus, bevor sie Aufgaben auswählen");
 				//	alert.showAndWait();
 					AlertWindow alert = new AlertWindow();
-					alert.display();
+					alert.display("Aufgaben im Katalog", "Wählen sie zuerst einen Katalog aus, bevor sie Aufgaben auswählen");
 				}
 			});
 			
@@ -132,10 +132,12 @@ import javafx.stage.Stage;
 						phase.setStyle("-fx-border-color: black; -fx-background-color: lightgreen;");
 						code = false;
 						refactor = true; //Leitet Refactoring ein
+						babysteps = false;
+					
 						if(babysteps)
 						{
 							timer = new WindowTimer(zeit);
-						}
+						}	
 					}else
 					{
 						System.out.println("Fehler");
@@ -213,6 +215,7 @@ import javafx.stage.Stage;
 				phase.setText("Test schreiben");
 				phase.setStyle("-fx-border-color: black; -fx-background-color: red;");
 				code = true;
+				refactor = false;
 				if(babysteps)
 				{
 					timer = new WindowTimer(zeit);
@@ -348,5 +351,10 @@ import javafx.stage.Stage;
 		{
 			zeitAnzeige.setText(anzeige);
 		}
+		
+		public static Tester getTester(){
+			return testX;
+		}
+		
 }
 

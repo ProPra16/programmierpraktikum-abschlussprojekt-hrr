@@ -57,9 +57,27 @@ public class Log {
 		} catch	(IOException e) {
 			System.out.println(e.getMessage()+"\n");
 		}		
-		//Fehlerlog();
-	}	
-	/*public void Fehlerlog(){
+		Tester test = Window.getTester();
+		System.out.println("ErrorString: "+test.getErrorString());
+		Fehlerlog(test.getErrorString());
+	}
+	
+	public void Fehlerlog(String log3){
+		BufferedWriter writer = null; 
 		
-	}*/
+		try {			
+			writer = new BufferedWriter( new FileWriter("FehlerLog.txt"));	
+			
+			int counter = 0;
+						
+					writer.write((String)log3);	//log2.get(counter)
+					writer.flush();
+					counter++;
+
+			
+			writer.close();
+		} catch	(IOException e) {
+			System.out.println(e.getMessage()+"\n");
+		}		
+	}
 }

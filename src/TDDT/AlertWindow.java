@@ -13,14 +13,14 @@ public class AlertWindow {
 		
 	}
 	
-	public static void display(){
+	public static void display(String titel, String inhalt){
 		
 		Stage window = new Stage();
 		window.initModality(Modality.APPLICATION_MODAL);  //Man muss das neu geöffnete Fenster zuerst bearbeiten.
-		window.setTitle("Aufgaben im Katalog");
+		window.setTitle(titel);
 		window.setMinWidth(250);
 		
-		Label label = new Label("Wählen sie zuerst einen Katalog aus, bevor sie Aufgaben auswählen");
+		Label label = new Label(inhalt);
 		Button close = new Button("OK");
 		close.setOnAction(event -> window.close());
 		
